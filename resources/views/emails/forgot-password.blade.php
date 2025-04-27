@@ -21,7 +21,7 @@
         <h2>Halo,</h2>
         <p>Berikut adalah kode verifikasi untuk reset password Anda:</p>
         <p class="code">{{ $verificationCode }}</p>
-        <p>Masukkan kode ini di aplikasi untuk melanjutkan proses reset password.</p>
+        <p>Masukkan kode ini untuk melanjutkan proses reset password.</p>
         <p>Terima kasih!</p>
     </div>
 </body>
