@@ -79,12 +79,14 @@ class AuthController extends Controller
                 'no_hp' => $request->no_hp,
                 'gender' => $request->gender,
                 'password' => Hash::make($request->password),
+                'role_type' => 0,
             ]);
     
             return response()->json([
                 'message' => 'Berhasil register user',
-                'user' => $user
-            ], 201); 
+                'user' => $user,
+                'role' => $user->role_type == 0 ? 'User' : 'Admin'
+            ], 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'message' => 'Validasi gagal',
