@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminArtikelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserArticleController;
@@ -34,6 +35,9 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/postArtikel', [UserArticleController::class, 'postArtikel']); 
-    Route::get('/semuaArtikel', [UserArticleController::class, 'semuaArtikel']);
-    Route::get('/detailArtikel/{id}', [UserArticleController::class, 'detailArtikel']);
+    Route::get('/userArtikel', [UserArticleController::class, 'artikelByUser']); 
+    // 
+    Route::put('/updateStatusArtikel/{id}',[AdminArtikelController::class, 'verifikasiArtikel']);
 });
+Route::get('/semuaArtikel', [UserArticleController::class, 'semuaArtikel']);
+Route::get('/detailArtikel/{id}', [UserArticleController::class, 'detailArtikel']);

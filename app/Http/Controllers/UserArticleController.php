@@ -10,7 +10,7 @@ class UserArticleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['semuaArtikel', 'detailArtikel']]);
     }
 
     public function postArtikel(Request $request)
@@ -20,6 +20,7 @@ class UserArticleController extends Controller
                 'title' => 'required|string|max:255',
                 'content' => 'required|string',
                 'image' => 'nullable|url|image|mimes:jpg,jpeg,png|max:2048',
+                'verifikasi_admin' => 'menunggu',
             ]);
 
             $path = null;
@@ -40,6 +41,7 @@ class UserArticleController extends Controller
                 'title' => $request->title,
                 'content' => $request->content,
                 'image' => $path,
+                'verifikasi_admin' => 'menunggu',
             ]);
 
             return response()->json([
@@ -95,6 +97,27 @@ class UserArticleController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Terjadi kesalahan saat mengambil detail artikel',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    
+    public function artikelByUser()
+    {
+        try {
+            $user = Auth::user();
+            $artikels = ArtikelModel::where('user_id', $user->id)
+            ->with('user:id,nama_depan,nama_belakang,email')
+            ->latest()->get();
+
+            return response()->json([
+                'message' => 'List artikel berhasil diambil',
+                'artikels' => $artikels,
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat mengambil list artikel',
                 'error' => $e->getMessage(),
             ], 500);
         }

@@ -16,6 +16,7 @@ class ArtikelModel extends Model
         'title',
         'content',
         'image',
+        'verifikasi_admin',
     ];
 
     public function user()
