@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ArtikelMenungguVerifikasi;
 use App\Models\ArtikelModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UserArticleController extends Controller
 {
@@ -19,22 +21,20 @@ class UserArticleController extends Controller
             $request->validate([
                 'title' => 'required|string|max:255',
                 'content' => 'required|string',
-                'image' => 'nullable|url|image|mimes:jpg,jpeg,png|max:2048',
-                'verifikasi_admin' => 'menunggu',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
-
+    
             $path = null;
-
+    
             if ($request->has('image')) {
                 if (filter_var($request->image, FILTER_VALIDATE_URL)) {
-                    $path = $request->image;  
-                }
-                
-                elseif ($request->hasFile('image')) {
-                    $path = $request->file('image')->store('artikels', 'public');
+                    $path = $request->image;
+                } elseif ($request->hasFile('image')) {
+                    $originalName = $request->file('image')->getClientOriginalName();
+                    $path = $request->file('image')->storeAs('ImageArtikel', $originalName, 'public');
                 }
             }
-
+    
             $user = Auth::user();
             $artikel = ArtikelModel::create([
                 'user_id' => $user->id,
@@ -44,11 +44,15 @@ class UserArticleController extends Controller
                 'verifikasi_admin' => 'menunggu',
             ]);
 
+            $penulis = $user;
+    
+            Mail::to('aziswihasto@gmail.com')->send(new ArtikelMenungguVerifikasi($artikel, $penulis));
+    
             return response()->json([
                 'message' => 'Artikel berhasil ditambahkan',
                 'artikel' => $artikel,
             ], 201);
-
+    
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'message' => 'Validasi gagal',

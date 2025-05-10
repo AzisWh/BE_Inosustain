@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\ArtikelModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ArtikelStatusUpdated;
+use Illuminate\Support\Facades\Log;
 
 class AdminArtikelController extends Controller
 {
@@ -22,6 +25,15 @@ class AdminArtikelController extends Controller
             $artikel = ArtikelModel::findOrFail($id);
             $artikel->verifikasi_admin = $request->verifikasi_admin;
             $artikel->save();
+
+            try {
+                if ($artikel->user && $artikel->user->email) {
+                    // Log::debug('Email akan dikirim ke: ' . $artikel->user->email);
+                    Mail::to($artikel->user->email)->send(new ArtikelStatusUpdated($artikel));
+                }
+            } catch (\Exception $e) {
+                Log::error('Email sending failed: ' . $e->getMessage());
+            }
     
             return response()->json([
                 'message' => 'Status artikel berhasil diperbarui',

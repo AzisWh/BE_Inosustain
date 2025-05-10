@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminArtikelController;
+use App\Http\Controllers\AdminBlogBeritaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserArticleController;
@@ -38,6 +39,13 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/userArtikel', [UserArticleController::class, 'artikelByUser']); 
     // 
     Route::put('/updateStatusArtikel/{id}',[AdminArtikelController::class, 'verifikasiArtikel']);
+
+    // 
+    Route::post('/postBlogBerita',[AdminBlogBeritaController::class,'postBlog']);
+    Route::put('/editBlog/{id}', [AdminBlogBeritaController::class, 'editBlog']);
+    Route::delete('/deleteBlog/{id}', [AdminBlogBeritaController::class, 'deleteBlog']);
 });
+Route::get('/semuaBlog',[AdminBlogBeritaController::class,'semuaBlog']);
+Route::get('/detailBlog/{id}',[AdminBlogBeritaController::class,'detailBlog']);
 Route::get('/semuaArtikel', [UserArticleController::class, 'semuaArtikel']);
 Route::get('/detailArtikel/{id}', [UserArticleController::class, 'detailArtikel']);
