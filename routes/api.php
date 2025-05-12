@@ -39,6 +39,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/userArtikel', [UserArticleController::class, 'artikelByUser']); 
     // 
     Route::put('/updateStatusArtikel/{id}',[AdminArtikelController::class, 'verifikasiArtikel']);
+    Route::post('/postArticle', [AdminArtikelController::class, 'postArticle']);
 
     // 
     Route::post('/postBlogBerita',[AdminBlogBeritaController::class,'postBlog']);
