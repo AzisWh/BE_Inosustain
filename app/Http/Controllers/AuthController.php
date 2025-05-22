@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -130,11 +131,13 @@ class AuthController extends Controller
     public function refresh()
     {
         try {
-            $newToken = Auth::refresh(); 
+            $oldToken = JWTAuth::getToken();
+            $user = JWTAuth::toUser($oldToken);
+            $newToken = JWTAuth::refresh($oldToken);
     
             return response()->json([
                 'message' => 'Token refreshed successfully',
-                'user' => Auth::user(),
+                'user' => $user,
                 'authorization' => [
                     'token' => $newToken,
                     'type' => 'bearer',

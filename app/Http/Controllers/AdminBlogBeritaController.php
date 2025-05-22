@@ -138,6 +138,8 @@ class AdminBlogBeritaController extends Controller
 
             $validated = $validator->validated();
 
+            
+
             Log::info('Validated input:', $validated);
 
             $path = $blog->image;
@@ -201,7 +203,7 @@ class AdminBlogBeritaController extends Controller
             $user = Auth::user();
             if (!$user || $user->role_type !== 2) {
                 return response()->json([
-                    'message' => 'Anda tidak memiliki izin untuk menghapus artikel ini',
+                    'message' => 'Anda tidak memiliki izin untuk menghapus blog ini',
                 ], 403);
             }
 
@@ -213,11 +215,11 @@ class AdminBlogBeritaController extends Controller
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
-                'message' => 'Artikel tidak ditemukan',
+                'message' => 'blog tidak ditemukan',
             ], 404);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Terjadi kesalahan saat menghapus artikel',
+                'message' => 'Terjadi kesalahan saat menghapus blog',
                 'error' => $e->getMessage(),
             ], 500);
         }
