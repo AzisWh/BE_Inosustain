@@ -105,9 +105,9 @@ class AdminBukuController extends Controller
         try {
             $buku = BukuModel::findOrFail($id);
             $user = Auth::user();
-            if (! $user || $user->role_type !== 2) {
+            if (!$user || (int)$user->role_type !== 2) {
                 return response()->json([
-                    'message' => 'Anda tidak memiliki izin untuk mengedit buku ini',
+                    'message' => 'Anda tidak memiliki izin untuk menghapus artikel ini',
                 ], 403);
             }
 
@@ -195,9 +195,9 @@ class AdminBukuController extends Controller
     {
         try {
             $user = Auth::user();
-            if (! $user || $user->role_type !== 2) {
+            if (!$user || (int)$user->role_type !== 2) {
                 return response()->json([
-                    'message' => 'Anda tidak memiliki izin untuk menghapus buku ini',
+                    'message' => 'Anda tidak memiliki izin untuk menghapus artikel ini',
                 ], 403);
             }
 

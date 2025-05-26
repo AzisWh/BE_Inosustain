@@ -112,9 +112,9 @@ class AdminBlogBeritaController extends Controller
             $blog = BlogBeritaModel::findOrFail($id);
 
             $user = Auth::user();
-            if (!$user || $user->role_type !== 2) {
+            if (!$user || (int)$user->role_type !== 2) {
                 return response()->json([
-                    'message' => 'Anda tidak memiliki izin untuk mengedit artikel ini',
+                    'message' => 'Anda tidak memiliki izin untuk menghapus artikel ini',
                 ], 403);
             }
 
@@ -201,9 +201,9 @@ class AdminBlogBeritaController extends Controller
             $blog = BlogBeritaModel::findOrFail($id);
 
             $user = Auth::user();
-            if (!$user || $user->role_type !== 2) {
+            if (!$user || (int)$user->role_type !== 2) {
                 return response()->json([
-                    'message' => 'Anda tidak memiliki izin untuk menghapus blog ini',
+                    'message' => 'Anda tidak memiliki izin untuk menghapus artikel ini',
                 ], 403);
             }
 
