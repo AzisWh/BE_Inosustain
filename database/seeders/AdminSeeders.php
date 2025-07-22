@@ -19,7 +19,7 @@ class AdminSeeders extends Seeder
                 'nama_depan' => 'Inosustain',
                 'nama_belakang' => 'Admin',
                 'email' => 'inosustain@gmail.com',
-                'no_hp' => '087724414526',
+                'no_hp' => '082242497409',
                 'gender' => 'L',
                 'role_type' => 2,
                 'password' => Hash::make('inosustain-prod2025'),
