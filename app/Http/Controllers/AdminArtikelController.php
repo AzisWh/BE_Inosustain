@@ -179,7 +179,7 @@ class AdminArtikelController extends Controller
                     Storage::disk('public')->delete($path);
                 }
                 $originalName = $request->file('image')->getClientOriginalName();
-                $path = $request->file('image')->storeAs('ImageBlog', $originalName, 'public');
+                $path = $request->file('image')->storeAs('ImageArtikel', $originalName, 'public');
                 if (!$path) {
                     Log::error('Gagal menyimpan gambar baru');
                     throw new \Exception('Gagal menyimpan gambar baru');
