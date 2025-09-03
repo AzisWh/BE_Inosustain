@@ -24,4 +24,9 @@ class BlogBeritaModel extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function images()
+    {
+        return $this->hasMany(BlogImageModel::class, 'blog_id');
+    }
 }
