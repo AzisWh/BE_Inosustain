@@ -66,35 +66,71 @@ class AdminBlogBeritaController extends Controller
         }
     }
 
+    // public function addBlogImage(Request $request, $blogId)
+    // {
+    //     try {
+    //         $request->validate([
+    //             'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+    //         ]);
+
+    //         $blog = BlogBeritaModel::findOrFail($blogId);
+
+    //         $originalName = $request->file('image')->getClientOriginalName();
+    //         $path = $request->file('image')->storeAs('ImageBlog', $originalName, 'public');
+
+    //         $image = BlogImageModel::create([
+    //             'blog_id' => $blog->id,
+    //             'image' => $path,
+    //         ]);
+
+    //         return response()->json([
+    //             'message' => 'Gambar berhasil ditambahkan',
+    //             'image' => $image,
+    //         ], 201);
+
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'message' => 'Terjadi kesalahan',
+    //             'error' => $e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
+
     public function addBlogImage(Request $request, $blogId)
-    {
-        try {
-            $request->validate([
-                'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            ]);
+{
+    try {
+        $request->validate([
+            'images'   => 'required',
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-            $blog = BlogBeritaModel::findOrFail($blogId);
+        $blog = BlogBeritaModel::findOrFail($blogId);
+        $savedImages = [];
 
-            $originalName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('ImageBlog', $originalName, 'public');
+        foreach ($request->file('images') as $file) {
+            $originalName = $file->getClientOriginalName();
+            $path = $file->storeAs('ImageBlog', $originalName, 'public');
 
             $image = BlogImageModel::create([
                 'blog_id' => $blog->id,
-                'image' => $path,
+                'image'   => $path,
             ]);
 
-            return response()->json([
-                'message' => 'Gambar berhasil ditambahkan',
-                'image' => $image,
-            ], 201);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Terjadi kesalahan',
-                'error' => $e->getMessage(),
-            ], 500);
+            $savedImages[] = $image;
         }
+
+        return response()->json([
+            'message' => 'Gambar berhasil ditambahkan',
+            'images'  => $savedImages,
+        ], 201);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Terjadi kesalahan',
+            'error'   => $e->getMessage(),
+        ], 500);
     }
+}
 
     public function showImageBlog($id)
     {
