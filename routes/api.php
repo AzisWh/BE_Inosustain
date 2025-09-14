@@ -50,6 +50,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/editArticle/{id}', [AdminArtikelController::class, 'artikelEdit']);
     // 
     Route::post('/postBlogBerita',[AdminBlogBeritaController::class,'postBlog']);
+    Route::post('/addImageBlog/{id}', [AdminBlogBeritaController::class, 'addBlogImage']);
+    Route::get('/getBlogImages/{id}', [AdminBlogBeritaController::class, 'showImageBlog']);
     Route::post('/editBlog/{id}', [AdminBlogBeritaController::class, 'editBlog']);
     Route::delete('/deleteBlog/{id}', [AdminBlogBeritaController::class, 'deleteBlog']);
     // 
