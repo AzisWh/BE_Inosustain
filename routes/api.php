@@ -51,6 +51,7 @@ Route::middleware('auth:api')->group(function () {
     // 
     Route::post('/postBlogBerita',[AdminBlogBeritaController::class,'postBlog']);
     Route::post('/addImageBlog/{id}', [AdminBlogBeritaController::class, 'addBlogImage']);
+    Route::delete('/deleteImageBlog/{id}', [AdminBlogBeritaController::class, 'deleteImageBlog']);
     Route::get('/getBlogImages/{id}', [AdminBlogBeritaController::class, 'showImageBlog']);
     Route::post('/editBlog/{id}', [AdminBlogBeritaController::class, 'editBlog']);
     Route::delete('/deleteBlog/{id}', [AdminBlogBeritaController::class, 'deleteBlog']);
